@@ -1,0 +1,20 @@
+{
+  "name": "project-4-practice",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/Bulentor/project-4-practice#readme",
+  "bugs": {
+    "url": "https://github.com/Bulentor/project-4-practice/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Bulentor/project-4-practice.git"
+  },
+  "license": "ISC",
+  "author": "Bulent Alarslan",
+  "type": "commonjs",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}

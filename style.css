@@ -13,7 +13,7 @@ body {
 
 .calculator {
   width: 470px;
-  height: 680px;
+  height: 670px;
   background-color: black;
   margin: 150px auto;
   border-radius: 20px;
@@ -48,10 +48,10 @@ body {
   padding: 30px 190px 26px 20px;
 }
 
-.bth-orange {
+.btn-orange {
   background-color: orange;
 }
 
-.bth-gray {
+.btn-gray {
   background-color: gray;
 }

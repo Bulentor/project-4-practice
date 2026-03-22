@@ -42,6 +42,8 @@ body {
   margin: 10px 6px;
   font-style: 30px;
   background-color: rgba(128, 128, 128, 0.372);
+  transition: filter 0.2s ease, transform 0.1s ease;
+  cursor: pointer;
 }
 
 .zero-btn {
@@ -54,4 +56,12 @@ body {
 
 .btn-gray {
   background-color: gray;
+}
+
+.button:hover {
+  filter: brightness(0.8);
+}
+
+.button:active {
+  transform: scale(0.95);
 }

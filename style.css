@@ -59,9 +59,25 @@ body {
 }
 
 .button:hover {
-  filter: brightness(0.8);
+  filter: brightness(80%) !important;
 }
 
 .button:active {
+  transform: scale(0.95);
+}
+
+.btn-gray:hover {
+  background-color: #696969;
+}
+
+.btn-gray:active {
+  transform: scale(0.95);
+}
+
+.btn-orange:hover {
+  background-color: #e69500;
+}
+
+.btn-orange:active {
   transform: scale(0.95);
 }

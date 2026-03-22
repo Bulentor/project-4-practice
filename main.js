@@ -69,7 +69,6 @@ function calculate() {
 }
 
 function resetAll() {
-    display.innerText = '0';
     currentInput = '0';
     previousInput = '';
     operator = null;

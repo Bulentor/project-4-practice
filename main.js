@@ -17,6 +17,11 @@ buttons.addEventListener('click', (e) => {
         return;
     }
 
+    if (value === '%') {
+    currentInput = (parseFloat(currentInput) / 100).toString();
+    updateDisplay();
+    return;
+}
     // Числа и точка
     if (!isNaN(value) || value === '.') {
         handleNumber(value);
@@ -61,7 +66,6 @@ function calculate() {
         case '-': result = a - b; break;
         case '*': result = a * b; break;
         case '/': result = b !== 0 ? a / b : 'Ошибка'; break;
-        case '%': result = b >= 0 ? a / 100 * b: 'Ошибка'; break;
         default: return;
     }
 

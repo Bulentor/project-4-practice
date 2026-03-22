@@ -1,98 +1,81 @@
 const display = document.querySelector('.display');
 const buttons = document.querySelector('.buttons');
 
-let firstValue = 0;
-let operator = null;
-let waitingForNextValue = false;
+let currentInput = '0'; // То, что вводим сейчас
+let previousInput = ''; // Предыдущее число
+let operator = null;    // Знак операции
+let shouldResetScreen = false; // Флаг для очистки экрана после нажатия на оператор
 
-buttons.addEventListener('click', (event) => {
-  const target = event.target;
-  if (!target.classList.contains('button')) return;
+buttons.addEventListener('click', (e) => {
+    if (!e.target.classList.contains('button')) return;
 
-  const value = target.textContent;
+    const value = e.target.textContent;
 
-  switch (value) {
-    case 'AC':
-      resetCalculator();
-      break;
-    case '=':
-      handleOperator(operator);
-      operator = null;
-      break;
-    case '+':
-    case '-':
-    case '*':
-    case '/':
-      handleOperator(value);
-      break;
-    case '.':
-      inputDecimal();
-      break;
-    case '+/-':
-      display.textContent = (parseFloat(display.textContent) * -1).toString();
-      break;
-    case '%':
-      display.textContent = (parseFloat(display.textContent) / 100).toString();
-      break;
-    default:
-      inputDigit(value);
-  }
-  updateDisplay();
+    // Сброс (AC)
+    if (e.target.classList.contains('ac')) {
+        resetAll();
+        return;
+    }
+
+    // Числа и точка
+    if (!isNaN(value) || value === '.') {
+        handleNumber(value);
+    } 
+    // Операции (=, +, -, *, /)
+    else if (value === '=') {
+        calculate();
+        operator = null;
+    } else {
+        handleOperator(value);
+    }
+
+    updateDisplay();
 });
 
-function inputDigit(digit) {
-  if (waitingForNextValue) {
-    display.textContent = digit;
-    waitingForNextValue = false;
-  } else {
-    display.textContent = display.textContent === '0' ? digit : display.textContent + digit;
-  }
-}
-
-function inputDecimal() {
-  if (!display.textContent.includes('.')) {
-    display.textContent += '.';
-  }
+function handleNumber(num) {
+    if (currentInput === '0' || shouldResetScreen) {
+        currentInput = num;
+        shouldResetScreen = false;
+    } else {
+        if (num === '.' && currentInput.includes('.')) return;
+        currentInput += num;
+    }
 }
 
 function handleOperator(nextOperator) {
-  const currentValue = parseFloat(display.textContent);
-
-  if (operator && waitingForNextValue) {
+    if (operator !== null) calculate();
+    previousInput = currentInput;
     operator = nextOperator;
-    return;
-  }
-
-  if (firstValue === null) {
-    firstValue = currentValue;
-  } else if (operator) {
-    const result = calculate(firstValue, currentValue, operator);
-    display.textContent = String(result);
-    firstValue = result;
-  }
-
-  waitingForNextValue = true;
-  operator = nextOperator;
+    shouldResetScreen = true;
 }
 
-function calculate(first, second, op) {
-  if (op === '+') return first + second;
-  if (op === '-') return first - second;
-  if (op === '*') return first * second;
-  if (op === '/') return first / second;
-  return second;
+function calculate() {
+    if (operator === null || shouldResetScreen) return;
+    
+    const a = parseFloat(previousInput);
+    const b = parseFloat(currentInput);
+    let result = 0;
+
+    switch (operator) {
+        case '+': result = a + b; break;
+        case '-': result = a - b; break;
+        case '*': result = a * b; break;
+        case '/': result = b !== 0 ? a / b : 'Ошибка'; break;
+        default: return;
+    }
+
+    currentInput = result.toString();
+    operator = null;
 }
 
-function resetCalculator() {
-  display.textContent = '0';
-  firstValue = null;
-  operator = null;
-  waitingForNextValue = false;
+function resetAll() {
+    currentInput = '0';
+    previousInput = '';
+    operator = null;
+    shouldResetScreen = false;
 }
 
 function updateDisplay() {
-  // Ограничиваем длину числа, чтобы оно не вылезало за экран
-  if (display.textContent.length > 9) {
-    display.textContent = display.textContent.substring(0, 9);
-  }
+    display.textContent = currentInput;
 }
+
